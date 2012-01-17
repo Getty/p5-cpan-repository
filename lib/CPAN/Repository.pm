@@ -117,6 +117,15 @@ sub authordir {
 	return catdir( $self->splitted_dir, $self->authorbase_path_parts, $self->author_path_parts($author) );
 }
 
+sub modules {
+	my ( $self ) = @_;
+	my %modules;
+	for (keys %{$self->packages->modules}) {
+		$modules{$_} = catfile( $self->splitted_dir, $self->authorbase_path_parts, splitdir( $self->packages->modules->{$_}->[1] ) );
+	}
+	return \%modules;
+}
+
 #
 # Utilities
 #

@@ -50,8 +50,13 @@ BEGIN {
 	is_deeply($repo->packages->modules, {
 		'My::Other::Sample' => [ '0.001', 'F/FA/FAMILYGUY/My-Other-Sample-0.001.tar.gz' ],
 		'My::Sample::Distribution' => [ '0.004', 'A/AL/ALMIGHTYGOD/My-Sample-Distribution-0.004.tar.gz' ]
-	},'Checking module state of the repository');
+	}, 'Checking module state of the packages file');
 
+	is_deeply($repo->modules, {
+		'My::Other::Sample' => $tempdir.'/authors/id/F/FA/FAMILYGUY/My-Other-Sample-0.001.tar.gz',
+		'My::Sample::Distribution' => $tempdir.'/authors/id/A/AL/ALMIGHTYGOD/My-Sample-Distribution-0.004.tar.gz'
+	}, 'Checking module state of the repository');
+	
 	my @packages_lines = $repo->packages->get_file_lines;
 
 	is(scalar @packages_lines, 11, 'Checking for correct amount of lines in packages');
