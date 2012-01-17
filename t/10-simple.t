@@ -8,8 +8,6 @@ use File::Temp qw/ tempfile tempdir /;
 
 use CPAN::Repository;
 
-use Data::Dumper;
-
 BEGIN {
 
 	my $tempdir = tempdir;
