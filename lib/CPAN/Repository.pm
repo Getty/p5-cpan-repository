@@ -161,7 +161,7 @@ sub mkdir {
   $repo->initialize unless $repo->is_initialized;
   
   $repo->add_author_distribution('AUTHOR','My-Distribution-0.001.tar.gz');
-  $repo->add_alias('AUTHOR','The Author <author@company.org>');
+  $repo->set_alias('AUTHOR','The Author <author@company.org>');
 
 =head1 DESCRIPTION
 
@@ -182,5 +182,3 @@ Repository
 Issue Tracker
 
   http://github.com/Getty/p5-cpan-repository/issues
-
-1;
