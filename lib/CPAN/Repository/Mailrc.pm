@@ -44,3 +44,33 @@ sub generate_content {
 }
 
 1;
+
+
+=encoding utf8
+
+=head1 SYNOPSIS
+
+  use CPAN::Repository::Mailrc;
+
+  my $mailrc = CPAN::Repository::Mailrc->new({
+    repository_root => $fullpath_to_root,
+  });
+
+=head1 SEE ALSO
+  
+L<CPAN::Repository>
+
+=head1 SUPPORT
+
+IRC
+
+  Join #duckduckgo on irc.freenode.net. Highlight Getty for fast reaction :).
+
+Repository
+
+  http://github.com/Getty/p5-cpan-repository
+  Pull request and additional contributors are welcome
+ 
+Issue Tracker
+
+  http://github.com/Getty/p5-cpan-repository/issues

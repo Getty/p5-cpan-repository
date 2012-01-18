@@ -64,6 +64,8 @@ BEGIN {
 	my @mailrc_lines = $repo->mailrc->get_file_lines;
 
 	is(scalar @mailrc_lines, 2, 'Checking for correct amount of lines in mailrc');
+
+	isa_ok($repo->timestamp,'DateTime');
 	
 }
 

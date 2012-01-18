@@ -126,6 +126,8 @@ sub modules {
 	return \%modules;
 }
 
+sub timestamp { shift->packages->timestamp }
+
 #
 # Utilities
 #
@@ -162,11 +164,24 @@ sub mkdir {
   
   $repo->add_author_distribution('AUTHOR','My-Distribution-0.001.tar.gz');
   $repo->set_alias('AUTHOR','The Author <author@company.org>');
+  
+  my %modules = %{$repo->modules};
+  
+  my $fullpath_to_authordir = $self->authordir('SOMEONE');
+ 
+  my $packages = $self->packages; # gives back a CPAN::Repository::Packages
+  my $mailrc = $self->mailrc; # gives back a CPAN::Repository::Mailrc
 
 =head1 DESCRIPTION
 
 This module is made for representing a directory which can be used as own CPAN for modules, so it can be a GreyPAN, a DarkPAN or even can be
 used to manage a mirror of real CPAN your own way. Some code parts are taken from CPAN::Dark of B<CHROMATIC> and L<CPAN::Mini::Inject> of B<MITHALDU>.
+
+=head1 SEE ALSO
+
+L<CPAN::Repository::Packages>
+
+L<CPAN::Repository::Mailrc>
 
 =head1 SUPPORT
 

@@ -1,5 +1,5 @@
 package CPAN::Repository::Role::File;
-# ABSTRACT: Adding functionality to compress the given file also
+# ABSTRACT: Role for file functions
 
 use Moo::Role;
 
@@ -87,3 +87,20 @@ sub mkdir {
 }
 
 1;
+
+=encoding utf8
+
+=head1 SUPPORT
+
+IRC
+
+  Join #duckduckgo on irc.freenode.net. Highlight Getty for fast reaction :).
+
+Repository
+
+  http://github.com/Getty/p5-cpan-repository
+  Pull request and additional contributors are welcome
+ 
+Issue Tracker
+
+  http://github.com/Getty/p5-cpan-repository/issues

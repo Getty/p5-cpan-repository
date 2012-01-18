@@ -9,8 +9,12 @@ with qw(
 
 use Dist::Data;
 use File::Spec::Functions ':ALL';
+use IO::File;
+use DateTime::Format::RFC3339;
+use DateTime::Format::Epoch::Unix;
 
 sub file_parts { 'modules', '02packages.details.txt' }
+sub file_parts_stamp { 'modules', '02STAMP' }
 
 has modules => (
 	is => 'ro',
@@ -66,6 +70,31 @@ sub add_distribution {
 	return $self;
 }
 
+sub stamp_filename {
+	my ( $self ) = @_;
+	catfile( $self->repository_root, $self->file_parts_stamp );
+}
+
+after save => sub {
+	my ( $self ) = @_;
+	my $stamp = IO::File->new($self->stamp_filename, "w") or die "cant write to ".$self->stamp_filename;
+	my $now = DateTime->now;
+	print $stamp (DateTime::Format::Epoch::Unix->format_datetime($now).' '.DateTime::Format::RFC3339->new->format_datetime($now)."\n");
+	$stamp->close;
+};
+
+sub timestamp {
+	my ( $self ) = @_;
+	my $stamp = IO::File->new($self->stamp_filename, "r") or die "cant read ".$self->stamp_filename;
+	my ( $line ) = <$stamp>;
+	chomp($line);
+	if ($line =~ /^(\d+) /) {
+		return DateTime::Format::Epoch::Unix->parse_datetime($1);
+	} else {
+		die "cant find unix timestamp from ".$self->stamp_filename;
+	}
+}
+
 sub generate_content {
 	my ( $self ) = @_;
 	my @file_parts = $self->file_parts;
@@ -91,3 +120,35 @@ sub generate_header_line {
 }
 
 1;
+
+=encoding utf8
+
+=head1 SYNOPSIS
+
+  use CPAN::Repository::Packages;
+
+  my $packages = CPAN::Repository::Packages->new({
+    repository_root => $fullpath_to_root,
+    url => $url,
+    written_by => $written_by,
+    authorbase_path_parts => ['authors','id'],
+  });
+
+=head1 SEE ALSO
+  
+L<CPAN::Repository>
+
+=head1 SUPPORT
+
+IRC
+
+  Join #duckduckgo on irc.freenode.net. Highlight Getty for fast reaction :).
+
+Repository
+
+  http://github.com/Getty/p5-cpan-repository
+  Pull request and additional contributors are welcome
+ 
+Issue Tracker
+
+  http://github.com/Getty/p5-cpan-repository/issues
