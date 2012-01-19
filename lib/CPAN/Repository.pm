@@ -91,6 +91,7 @@ sub add_author_distribution {
 	copy($distribution_filename,catfile( $target_dir, $filename ));
 	$self->packages->add_distribution($author_path_filename)->save;
 	$self->mailrc->set_alias($author)->save unless defined $self->mailrc->aliases->{$author};
+	return catfile( $self->authorbase_path_parts, $self->author_path_parts($author), $filename );
 }
 
 sub set_alias {

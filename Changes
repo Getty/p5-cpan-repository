@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+	Return pathname in repo on add_author_distribution
 
 0.004     2012-01-18 01:00:55 Europe/Berlin
 	Fixed documentation, added generation of 02STAMP
