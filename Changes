@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.005     2012-01-19 18:26:15 Europe/Berlin
 	Return pathname in repo on add_author_distribution
 
 0.004     2012-01-18 01:00:55 Europe/Berlin
