@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+	Fixed handling of undef versions in generation of packages
 
 0.005     2012-01-19 18:26:15 Europe/Berlin
 	Return pathname in repo on add_author_distribution
