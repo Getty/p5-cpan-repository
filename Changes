@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.006     2012-01-26 01:07:48 Europe/Berlin
 	Fixed handling of undef versions in generation of packages
 
 0.005     2012-01-19 18:26:15 Europe/Berlin
