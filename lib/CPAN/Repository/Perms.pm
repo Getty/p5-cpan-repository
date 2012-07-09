@@ -110,8 +110,10 @@ sub generate_content {
 	$content .= $self->generate_header_line('Line-Count:',$self->perms_linecount);
 	$content .= $self->generate_header_line('Date:',DateTime->now->strftime('%a, %e %b %y %T %Z'));
 	$content .= "\n";
-	for (sort { $a cmp $b } keys %{$self->modules}) {
-		$content .= sprintf("%-60s %-20s %s\n",$_,$self->modules->{$_}->[0] ? $self->modules->{$_}->[0] : 'undef',$self->modules->{$_}->[1]);
+	for (sort { $a cmp $b } keys %{$self->perms}) {
+		for my $u (sort { $a cmp $b } keys %{$self->perms->{$_}}) {
+			$content .= join(",",$_,$u,$self->perms->{$_}->{$u});
+		}
 	}
 	return $content;
 }
