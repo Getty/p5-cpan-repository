@@ -67,6 +67,7 @@ sub set_perms {
 	die "unknown perm ".$perm unless grep { $_ eq $perm } @perm_perms;
 	$self->perms->{$module} = {} unless defined $self->perms->{$module};
 	$self->perms->{$module}->{$userid} = $perm;
+	return $self;
 }
 
 sub get_perms {

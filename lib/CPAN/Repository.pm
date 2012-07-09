@@ -46,6 +46,9 @@ has mailrc => (
 	is => 'ro',
 	lazy => 1,
 	builder => '_build_mailrc',
+	handles => [qw(
+		get_alias
+	)],
 );
 
 sub _build_mailrc {
@@ -59,6 +62,10 @@ has perms => (
 	is => 'ro',
 	lazy => 1,
 	builder => '_build_perms',
+	handles => [qw(
+		get_perms
+		get_perms_by_userid
+	)],
 );
 
 sub _build_perms {
@@ -74,6 +81,10 @@ has packages => (
 	is => 'ro',
 	lazy => 1,
 	builder => '_build_packages',
+	handles => [qw(
+		get_module
+		get_module_version
+	)],
 );
 
 sub _build_packages {
@@ -96,6 +107,7 @@ sub initialize {
 	die "there exist already a repository at ".$self->real_dir if $self->is_initialized;
 	$self->mailrc->save;
 	$self->packages->save;
+	$self->perms->save;
 }
 
 sub add_author_distribution {
@@ -108,6 +120,11 @@ sub add_author_distribution {
 	$self->packages->add_distribution($author_path_filename)->save;
 	$self->mailrc->set_alias($author)->save unless defined $self->mailrc->aliases->{$author};
 	return catfile( $self->authorbase_path_parts, $self->author_path_parts($author), $filename );
+}
+
+sub set_perms {
+	my $self = shift;
+	$self->perms->set_perms(@_)->save;
 }
 
 sub set_alias {

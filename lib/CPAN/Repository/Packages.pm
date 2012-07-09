@@ -55,6 +55,20 @@ has written_by => (
 	required => 1,
 );
 
+sub get_module {
+	my ( $self, $module ) = @_;
+	return defined $self->modules->{$module}
+		? $self->modules->{$module}->[1]
+		: ();
+}
+
+sub get_module_version {
+	my ( $self, $module ) = @_;
+	return defined $self->modules->{$module}
+		? $self->modules->{$module}->[0]
+		: ();
+}
+
 sub set_module {
 	my ( $self, $module, $version, $path ) = @_;
 	return $self->modules->{$module} = [ $version, $path ];

@@ -34,6 +34,13 @@ sub set_alias {
 	return $self;
 }
 
+sub get_alias {
+	my ( $self, $author ) = @_;
+	return defined $self->aliases->{$author}
+		? $self->aliases->{$author}
+		: ();
+}
+
 sub generate_content {
 	my ( $self ) = @_;
 	my $content = "";
