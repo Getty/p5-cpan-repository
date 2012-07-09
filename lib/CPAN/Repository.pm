@@ -6,6 +6,7 @@ use File::Path qw( make_path );
 use File::Spec::Functions ':ALL';
 use CPAN::Repository::Mailrc;
 use CPAN::Repository::Packages;
+use CPAN::Repository::Perms;
 use File::Copy;
 
 our $VERSION ||= '0.0development';
@@ -53,6 +54,21 @@ sub _build_mailrc {
 		repository_root => $self->real_dir,
 	});
 }
+
+has perms => (
+	is => 'ro',
+	lazy => 1,
+	builder => '_build_perms',
+);
+
+sub _build_perms {
+	my ( $self ) = @_;
+	return CPAN::Repository::Perms->new({
+		repository_root => $self->real_dir,
+		written_by => $self->written_by,
+	});
+}
+
 
 has packages => (
 	is => 'ro',
