@@ -45,25 +45,39 @@ BEGIN {
 
 	ok($repo->is_initialized,'Checking if repo is still initialized');
 
-	$repo->add_author_distribution('ALMIGHTYGOD',"$Bin/data/My-Sample-Distribution-0.004.tar.gz");
+	$repo->add_author_distribution('ALMIGHTYGOD',"$Bin/data/My-Sample-Distribution-0.004.tar.gz",'THIS_IS_SOOO_GOOD');
 
 	is_deeply($repo->packages->modules, {
 		'My::Other::Sample' => [ '0.001', 'F/FA/FAMILYGUY/My-Other-Sample-0.001.tar.gz' ],
-		'My::Sample::Distribution' => [ '0.004', 'A/AL/ALMIGHTYGOD/My-Sample-Distribution-0.004.tar.gz' ]
+		'My::Sample::Distribution' => [ '0.004', 'THIS_IS_SOOO_GOOD/My-Sample-Distribution-0.004.tar.gz' ]
 	}, 'Checking module state of the packages file');
 
 	is_deeply($repo->modules, {
 		'My::Other::Sample' => $tempdir.'/authors/id/F/FA/FAMILYGUY/My-Other-Sample-0.001.tar.gz',
-		'My::Sample::Distribution' => $tempdir.'/authors/id/A/AL/ALMIGHTYGOD/My-Sample-Distribution-0.004.tar.gz'
+		'My::Sample::Distribution' => $tempdir.'/authors/id/THIS_IS_SOOO_GOOD/My-Sample-Distribution-0.004.tar.gz'
 	}, 'Checking module state of the repository');
 	
-	my @packages_lines = $repo->packages->get_file_lines;
+	my @packages_lines = grep { $_ !~ /^Last-Updated:/ } map { chomp($_); $_; } $repo->packages->get_file_lines;
 
-	is(scalar @packages_lines, 11, 'Checking for correct amount of lines in packages');
+	is_deeply(\@packages_lines, [
+		'File:         02packages.details.txt',
+		'URL:          http://cpan.universe.org/modules/02packages.details.txt',
+		'Description:  Package names found in directory $CPAN/authors/id/',
+		'Columns:      package name, version, path',
+		'Intended-For: Automated fetch routines, namespace documentation.',
+		'Written-By:   10-simple.t',
+		'Line-Count:   2',
+		'',
+		'My::Other::Sample                                            0.001                F/FA/FAMILYGUY/My-Other-Sample-0.001.tar.gz',
+		'My::Sample::Distribution                                     0.004                THIS_IS_SOOO_GOOD/My-Sample-Distribution-0.004.tar.gz'
+	], 'Checking for correct lines in packages');
 
-	my @mailrc_lines = $repo->mailrc->get_file_lines;
+	my @mailrc_lines = map { chomp($_); $_; } $repo->mailrc->get_file_lines;
 
-	is(scalar @mailrc_lines, 2, 'Checking for correct amount of lines in mailrc');
+	is_deeply(\@mailrc_lines, [
+		'alias ALMIGHTYGOD "ALMIGHTYGOD"',
+		'alias FAMILYGUY "FAMILYGUY"'
+	], 'Checking for correct lines in mailrc');
 
 	isa_ok($repo->timestamp,'DateTime');
 	

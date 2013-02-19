@@ -111,12 +111,19 @@ sub initialize {
 }
 
 sub add_author_distribution {
-	my ( $self, $author, $distribution_filename ) = @_;
+	my ( $self, $author, $distribution_filename, $path ) = @_;
 	my @fileparts = splitdir( $distribution_filename );
 	my $filename = pop(@fileparts);
+	my $author_path_filename;
 	my $target_dir = $self->mkauthordir($author);
-	my $author_path_filename = catfile( $self->author_path_parts($author), $filename );
-	copy($distribution_filename,catfile( $target_dir, $filename ));
+	if ($path) {
+		my $path_dir = catfile( $self->splitted_dir, $self->authorbase_path_parts, $path );
+		$self->mkdir( $path_dir ) unless -d $path_dir;
+		$author_path_filename = catfile( $path, $filename );
+	} else {
+		$author_path_filename = catfile( $self->author_path_parts($author), $filename );
+	}
+	copy($distribution_filename,catfile( $self->splitted_dir, $self->authorbase_path_parts, $author_path_filename ));
 	$self->packages->add_distribution($author_path_filename)->save;
 	$self->mailrc->set_alias($author)->save unless defined $self->mailrc->aliases->{$author};
 	return catfile( $self->authorbase_path_parts, $self->author_path_parts($author), $filename );
@@ -197,7 +204,9 @@ sub mkdir {
   $repo->initialize unless $repo->is_initialized;
   
   $repo->add_author_distribution('AUTHOR','My-Distribution-0.001.tar.gz');
-  $repo->set_alias('AUTHOR','The Author <author@company.org>');
+  $repo->add_author_distribution('AUTHOR2','Other-Dist-0.001.tar.gz','Custom/Own/Path');
+  $repo->set_alias('AUTHOR','The author <author@company.org>');
+  $repo->set_alias('AUTHOR2','The other author <author@company.org>');
   
   my %modules = %{$repo->modules};
   

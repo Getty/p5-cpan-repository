@@ -7,8 +7,6 @@ use File::Path qw( make_path );
 use File::Spec::Functions ':ALL';
 use IO::Zlib;
 use IO::File;
-# makes 00-load.t fail on test in dev
-#use utf8::all;
 
 requires qw( file_parts generate_content );
 

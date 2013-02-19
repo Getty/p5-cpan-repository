@@ -44,7 +44,7 @@ sub get_alias {
 sub generate_content {
 	my ( $self ) = @_;
 	my $content = "";
-	for (sort keys %{$self->aliases}) {
+	for (sort { $a cmp $b } keys %{$self->aliases}) {
 		$content .= 'alias '.$_.' "'.( $self->aliases->{$_} ? $self->aliases->{$_} : $_ ).'"'."\n";
 	}
 	return $content;
