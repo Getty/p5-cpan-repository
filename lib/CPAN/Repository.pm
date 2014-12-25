@@ -210,10 +210,10 @@ sub mkdir {
   
   my %modules = %{$repo->modules};
   
-  my $fullpath_to_authordir = $self->authordir('SOMEONE');
+  my $fullpath_to_authordir = $repo->authordir('SOMEONE');
  
-  my $packages = $self->packages; # gives back a CPAN::Repository::Packages
-  my $mailrc = $self->mailrc; # gives back a CPAN::Repository::Mailrc
+  my $packages = $repo->packages; # gives back a CPAN::Repository::Packages
+  my $mailrc = $repo->mailrc; # gives back a CPAN::Repository::Mailrc
 
 =head1 DESCRIPTION
 
