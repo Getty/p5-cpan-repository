@@ -111,11 +111,14 @@ sub generate_content {
 	$content .= $self->generate_header_line('Line-Count:',$self->perms_linecount);
 	$content .= $self->generate_header_line('Date:',DateTime->now->strftime('%a, %e %b %y %T %Z'));
 	$content .= "\n";
+
+    my @perms;
 	for (sort { $a cmp $b } keys %{$self->perms}) {
 		for my $u (sort { $a cmp $b } keys %{$self->perms->{$_}}) {
-			$content .= join(",",$_,$u,$self->perms->{$_}->{$u});
+			push @perms, join(",",$_,$u,$self->perms->{$_}->{$u});
 		}
 	}
+	$content .= join "\n", @perms;
 	return $content;
 }
 
