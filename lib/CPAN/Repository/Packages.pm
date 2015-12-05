@@ -3,7 +3,7 @@ package CPAN::Repository::Packages;
 
 use Moo;
 
-our $VERSION = '0.010';
+our $VERSION = '0.011';
 
 with qw(
 	CPAN::Repository::Role::File

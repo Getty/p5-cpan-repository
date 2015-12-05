@@ -3,7 +3,7 @@ package CPAN::Repository;
 
 use Moo;
 
-our $VERSION = '0.010';
+our $VERSION = '0.011';
 
 use File::Path qw( make_path );
 use File::Spec::Functions ':ALL';
