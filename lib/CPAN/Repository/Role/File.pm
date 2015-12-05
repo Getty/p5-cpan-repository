@@ -3,6 +3,8 @@ package CPAN::Repository::Role::File;
 
 use Moo::Role;
 
+our $VERSION = '0.010';
+
 use File::Path qw( make_path );
 use File::Spec::Functions ':ALL';
 use IO::Zlib;

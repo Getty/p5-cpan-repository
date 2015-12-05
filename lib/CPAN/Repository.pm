@@ -2,14 +2,15 @@ package CPAN::Repository;
 # ABSTRACT: API to access a directory which can be served as CPAN repository
 
 use Moo;
+
+our $VERSION = '0.010';
+
 use File::Path qw( make_path );
 use File::Spec::Functions ':ALL';
 use CPAN::Repository::Mailrc;
 use CPAN::Repository::Packages;
 use CPAN::Repository::Perms;
 use File::Copy;
-
-our $VERSION ||= '0.0development';
 
 has dir => (
 	is => 'ro',

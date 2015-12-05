@@ -3,6 +3,8 @@ package CPAN::Repository::Mailrc;
 
 use Moo;
 
+our $VERSION = '0.010';
+
 with qw(
 	CPAN::Repository::Role::File
 );

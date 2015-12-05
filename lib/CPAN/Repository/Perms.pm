@@ -1,6 +1,8 @@
 package CPAN::Repository::Perms;
 # ABSTRACT: 06perms
 
+our $VERSION = '0.010';
+
 use Moo;
 
 with qw(
