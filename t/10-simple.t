@@ -8,6 +8,8 @@ use File::Temp qw/ tempfile tempdir /;
 
 use CPAN::Repository;
 
+sub local_path_to_unix { File::Spec->catdir( File::Spec::Unix->splitdir( @_ ) ) }
+
 BEGIN {
 
 	my $tempdir = tempdir;
@@ -53,8 +55,8 @@ BEGIN {
 	}, 'Checking module state of the packages file');
 
 	is_deeply($repo->modules, {
-		'My::Other::Sample' => $tempdir.'/authors/id/F/FA/FAMILYGUY/My-Other-Sample-0.001.tar.gz',
-		'My::Sample::Distribution' => $tempdir.'/authors/id/THIS_IS_SOOO_GOOD/My-Sample-Distribution-0.004.tar.gz'
+		'My::Other::Sample' => local_path_to_unix( $tempdir.'/authors/id/F/FA/FAMILYGUY/My-Other-Sample-0.001.tar.gz' ),
+		'My::Sample::Distribution' => local_path_to_unix( $tempdir.'/authors/id/THIS_IS_SOOO_GOOD/My-Sample-Distribution-0.004.tar.gz' )
 	}, 'Checking module state of the repository');
 	
 	my @packages_lines = grep { $_ !~ /^Last-Updated:/ } map { chomp($_); $_; } $repo->packages->get_file_lines;
