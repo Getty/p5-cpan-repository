@@ -81,7 +81,7 @@ sub add_distribution {
 	my $filename = catfile( $self->repository_root, @{$self->authorbase_path_parts}, splitdir( $author_distribution_path ) );
 	my $dist = Dist::Data->new( $filename );
 	for (keys %{$dist->packages}) {
-		$self->set_module($_, $dist->packages->{$_}->{version}, $author_distribution_path);
+		$self->set_module($_, $dist->packages->{$_}->{version}, File::Spec::Unix->catfile(splitdir $author_distribution_path));
 	}
 	return $self;
 }
