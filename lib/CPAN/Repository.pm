@@ -113,6 +113,10 @@ sub initialize {
 
 sub add_author_distribution {
 	my ( $self, $author, $distribution_filename, $path ) = @_;
+
+        die "missing author pause id" unless defined $author;
+        die "missing distribution file name" unless defined $distribution_filename;
+
 	my @fileparts = splitdir( $distribution_filename );
 	my $filename = pop(@fileparts);
 	my $author_path_filename;

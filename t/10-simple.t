@@ -30,6 +30,11 @@ BEGIN {
 		$repo->add_author_distribution('ALMIGHTYGOD',"$Bin/data/My-Sample-Distribution-0.003.tar.gz");
 		$repo->add_author_distribution('FAMILYGUY',"$Bin/data/My-Other-Sample-0.001.tar.gz");
 
+                eval { $repo->add_author_distribution() };
+                like($@, qr/missing author/);
+                eval { $repo->add_author_distribution('FAMILYGUY') };
+                like($@, qr/missing distribution file name/);
+
 		my @lines = $repo->packages->get_file_lines;
 		
 		is(scalar @lines, 11, 'Checking for correct amount of lines in packages');
