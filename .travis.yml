@@ -1,20 +1,29 @@
 ---
 before_install:
-  - export HARNESS_OPTIONS=j10:c HARNESS_TIMER=1
-  - rm .travis.yml
-  - git config --global user.name "Dist Zilla Plugin TravisCI"
-  - git config --global user.email $HOSTNAME":not-for-mail@travis-ci.org"
+  - 'eval $(curl https://travis-perl.github.io/init) --auto'
+  - 'cpanm --notest App::cpm'
+cache:
+  directories:
+    - '~/perl5'
 install:
-  - cpanm  --quiet  --notest --skip-installed Dist::Zilla
-  - dzil authordeps | grep -ve '^\W' | xargs -n 5 -P 10 cpanm  --quiet   --notest  --skip-installed
-  - dzil listdeps | grep -ve '^\W' | cpanm  --quiet   --notest  --skip-installed
+  - 'AUTHOR_TESTING=0 cpm install --cpanfile cpanfile --workers $(test-jobs) --global --with-recommends --with-suggests --with-configure --with-develop'
+  - 'cpan-install --coverage   # installs coverage prereqs, if enabled'
 language: perl
+matrix:
+  include:
+    -
+      env: COVERAGE=1
+      perl: '5.26'
 perl:
-  - '5.20'
-  - '5.18'
-  - '5.16'
-  - '5.14'
-  - '5.12'
   - '5.10'
+  - '5.12'
+  - '5.14'
+  - '5.16'
+  - '5.18'
+  - '5.20'
+  - '5.22'
+  - '5.24'
+  - '5.26'
 script:
-  - dzil smoke --release --author
+  - 'prove -lr -j$(test-jobs) t'
+sudo: 'false'
